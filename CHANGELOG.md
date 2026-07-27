@@ -1,3 +1,8 @@
+## v2.0.3
+- Gjorde dialogen rullningsbar i Safari.
+- Redigeringspanelen öppnas längst ned och dialogen rullar automatiskt till formuläret.
+- Robustare klickhantering för Redigera uppgifter och Stäng.
+
 # Changelog
 
 ## v2.0.2
