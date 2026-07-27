@@ -1,9 +1,10 @@
 # Changelog
 
-## v2.0.0 Stable — 2026-07-27
+## 2.0.1
+- Restored the photographic header background by correcting asset paths.
+- Made primary and secondary tags permanently visible in the judgment detail view.
+- Fixed the “Redigera uppgifter” action in browsers that do not expose dynamically used functions globally.
 
-- Fixed application startup on GitHub Pages.
-- Restored data preparation and search normalisation.
-- Preserved manual edits in memory until JSON export.
-- Added validation for missing tag arrays and optional metadata.
-- Retained the v2 folder structure and GitHub Pages deployment workflow.
+## 2.0.0 Stable
+- Stable GitHub Pages foundation.
+- Judgment filtering, details, editing and JSON export.

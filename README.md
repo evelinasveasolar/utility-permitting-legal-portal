@@ -4,7 +4,7 @@ Internal legal knowledge portal for environmental and planning case law relevant
 
 ## Version
 
-**v2.0.0 Stable**
+**v2.0.1 Stable**
 
 ## Current functionality
 
