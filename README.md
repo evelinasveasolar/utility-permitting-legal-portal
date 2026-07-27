@@ -1,55 +1,35 @@
 # Utility Permitting Legal Portal
 
-**Version 2.0.0 – Foundation**
+Internal legal knowledge portal for environmental and planning case law relevant to utility-scale renewable-energy projects.
 
-Internal legal knowledge portal for Utility Permitting. Search, analyse and manage environmental and planning case law related to utility-scale renewable energy projects. Built as a static GitHub Pages application with a future migration path to a collaborative web application.
+## Version
+
+**v2.0.0 Stable**
 
 ## Current functionality
 
-- Search and advanced filtering
+- Search and filtering
 - Tag-based navigation
-- Related and central judgments
-- Judgment editor below the normal detail view
-- In-memory change tracking
-- Warning before leaving with unexported changes
+- Related judgments and trend overview
+- Judgment editor beneath the ordinary detail view
+- Unsaved-change indicator
 - Reset changes
-- Export a complete, validated `judgments.json`
+- Export of an updated `judgments.json`
 
-## Publishing updates
+## Publishing on GitHub Pages
 
-1. Edit one or more judgments in the portal.
-2. Click **Ladda ned judgments.json**.
-3. Replace `data/judgments.json` in this repository.
-4. Commit the change to GitHub.
+Use:
 
-Edits are not written directly to GitHub and disappear if the page is reloaded before export.
+- Source: **Deploy from a branch**
+- Branch: **main**
+- Folder: **/(root)**
 
-## Repository structure
+## Updating data
 
-```text
-assets/
-  company-logo.png
-  company-logo-white.png
-  header-background.jpg
-  header-background.webp
-data/
-  judgments.json
-js/
-  app.js
-styles/
-  main.css
-index.html
-README.md
-```
+After editing judgments in the portal:
 
-## GitHub Pages
+1. Download the updated `judgments.json`.
+2. Replace `data/judgments.json` in the repository.
+3. Commit the change.
 
-Publish from the repository root on the main branch. No build step or framework is required.
-
-## Future roadmap
-
-- PDF upload and AI-assisted extraction
-- Draft and publication workflow
-- Authentication and role-based permissions
-- Shared database and file storage
-- Multi-user editing and version history
+The static version does not save edits directly to GitHub or a shared database.

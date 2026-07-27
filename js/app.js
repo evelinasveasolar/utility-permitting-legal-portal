@@ -19,6 +19,31 @@ function normalizeCourtCanonical(v){
 }
 function normalizeCourtName(r){return normalizeCourtCanonical(r.courtLevel==='MÖD'?'Svea hovrätt':r.court)}
 function inferCounty(r){const explicit={"M 2122-24":"Stockholm","M 2145-24":"Uppsala","M 2168-24":"Värmland","M 2595-24":"Kalmar","M 2683-25":"Södermanland","M 2687-24":"Värmland","M 2740-23":"Västra Götaland","M 3075-24":"Uppsala","M 3345-23":"Västra Götaland","M 3436-25":"Blekinge","M 3447-24":"Skåne","M 3509-24":"Västra Götaland","M 3543-23":"Kalmar","M 3670-23":"Skåne","M 3927-23":"Skåne","M 4170-25":"Skåne","M 4380-23":"Östergötland","M 4991-24":"Värmland","M 5118-24":"Skåne","M 5183-23":"Skåne","M 1197-23":"Kalmar","M 1371-26":"Örebro","M 1922-22":"Västra Götaland","M 1960-23":"Östergötland","M 1961-23":"Västra Götaland","M 2096-25":"Östergötland","M 2212-23":"Västra Götaland","M 2372-23":"Skåne","M 2373-25":"Östergötland","M 2374-25":"Östergötland","M 2560-23":"Skåne","M 2935-23":"Östergötland","M 3645-22":"Skåne","M 4075-25":"Kalmar","M 5013-25":"Blekinge","M 5297-22":"Skåne","M 5714-23":"Stockholm","M 736-23":"Stockholm","M 788-23":"Skåne","M 916-23":"Skåne","M 8257-23":"Västra Götaland","M 9853-25":"Södermanland","P 10602-25":"Stockholm","P 18211-25":"Södermanland","P 2405-23":"Skåne","M 17150-24":"Jönköping","P 2657-24":"Kalmar"};if(explicit[r.caseNumber])return explicit[r.caseNumber];const txt=[r.counterparty,r.property,r.court].join(' ');const m=txt.match(/(?:Länsstyrelsen i |Länsstyrelsen )([^,]+? län)/i);if(m)return normalizeCountyName(m[1].replace(/^./,x=>x.toUpperCase()));const map={'Nacka tingsrätt':'Stockholm','Växjö tingsrätt':'Kronoberg','Vänersborgs tingsrätt':'Västra Götaland','Umeå tingsrätt':'Västerbotten','Östersunds tingsrätt':'Jämtland','Örebro tingsrätt':'Örebro'};return normalizeCountyName(map[normalizeCourtName(r)]||'Ej registrerat')}function inferMunicipality(r){const explicit={"M 2122-24":"Haninge","M 2145-24":"Uppsala","M 2168-24":"Sunne","M 2595-24":"Västervik","M 2683-25":"Flen","M 2687-24":"Kristinehamn","M 2740-23":"Lidköping / Skara","M 3075-24":"Uppsala","M 3345-23":"Uddevalla","M 3436-25":"Karlskrona","M 3447-24":"Sjöbo","M 3509-24":"Göteborg","M 3543-23":"Emmaboda","M 3670-23":"Båstad","M 3927-23":"Östra Göinge","M 4170-25":"Sjöbo","M 4380-23":"Norrköping","M 4991-24":"Kristinehamn","M 5118-24":"Ängelholm","M 5183-23":"Ängelholm","M 1197-23":"Mörbylånga","M 1371-26":"Kumla","M 1922-22":"Tanum","M 1960-23":"Söderköping","M 1961-23":"Tanum","M 2096-25":"Linköping","M 2212-23":"Götene","M 2372-23":"Klippan","M 2373-25":"Linköping","M 2374-25":"Linköping","M 2560-23":"Eslöv","M 2935-23":"Linköping","M 3645-22":"Båstad","M 4075-25":"Borgholm","M 5013-25":"Karlskrona","M 5297-22":"Ystad","M 5714-23":"Haninge","M 736-23":"Norrtälje","M 788-23":"Bjuv","M 916-23":"Kristianstad","M 8257-23":"Götene","M 9853-25":"Flen","P 10602-25":"Norrtälje","P 18211-25":"Nyköping","P 2405-23":"Båstad","M 17150-24":"Eksjö","P 2657-24":"Mörbylånga"};if(explicit[r.caseNumber])return explicit[r.caseNumber];const txt=[r.counterparty,r.property,r.appellant].filter(Boolean).join(' ');if(/Göteborg/i.test(txt))return 'Göteborg';let m=txt.match(/([A-ZÅÄÖ][A-Za-zÅÄÖåäöéÉ\- ]{1,35}?)s? kommun/i);if(m)return m[1].trim().replace(/^./,x=>x.toUpperCase()).replace(/^i\s+/i,'');m=String(r.property||'').match(/^([A-ZÅÄÖ][A-Za-zÅÄÖåäöéÉ\-]+)\s+/);return m?m[1]:'Ej registrerad'}
+function norm(value){
+  return String(value??'')
+    .toLocaleLowerCase('sv-SE')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g,'')
+    .trim();
+}
+function prepareData(){
+  DATA.forEach(r=>{
+    r.courtName=normalizeCourtName(r);
+    r.county=(!r.county||/^Ej registrerat?$/i.test(r.county))?inferCounty(r):r.county;
+    r.municipality=(!r.municipality||/^Ej registrerat?$/i.test(r.municipality))?inferMunicipality(r):r.municipality;
+    r.central=Boolean(r.central);
+    r.relevance=r.relevance||(r.decisionType==='Ej registrerad'?'Ej bedömd':'Medelhög');
+    r.internalComment=r.internalComment||'';
+    r.displayHeadline=r.displayHeadline||caseTypeTitle(r);
+    r.primaryTags=Array.isArray(r.primaryTags)?r.primaryTags:[];
+    r.secondaryTags=Array.isArray(r.secondaryTags)?r.secondaryTags:[];
+    r.county=normalizeCountyName(r.county);
+    r.courtName=normalizeCourtCanonical(r.courtName);
+  });
+  TOPICS=[...new Set(DATA.flatMap(r=>[...(r.primaryTags||[]),...(r.secondaryTags||[])])
+    .filter(t=>t&&t!=='Ej analyserad'))].sort((a,b)=>a.localeCompare(b,'sv'));
+}
+
 function caseTypeTitle(r){const t=(r.decisionType||'').trim();const map={'Samråd 12:6 för solpark':'12:6-samråd för solcellsanläggning','Tillsyn solpark':'Tillsyn av solcellsanläggning','Strandskyddsdispens solpark':'Strandskyddsdispens för solcellsanläggning','Anmälan om vattenverksamhet':'Anmälan om vattenverksamhet vid solcellsanläggning','Ej registrerad':'Ärendetyp ännu inte registrerad'};if(map[t])return map[t];if(!t)return 'Ärendetyp ännu inte registrerad';return t.replace(/\bsolpark\b/gi,'solcellsanläggning').replace(/\bsolcellspark\b/gi,'solcellsanläggning');}
 let ORIGINAL_DATA=[];
 const DIRTY_CASES=new Set();
