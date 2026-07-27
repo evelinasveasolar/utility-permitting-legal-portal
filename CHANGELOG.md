@@ -1,5 +1,12 @@
 # Changelog
 
+## v2.0.2
+- Fixed the **Redigera uppgifter** button by replacing fragile inline handlers with explicit event listeners.
+- The editor now opens reliably in Safari and GitHub Pages.
+- **Avbryt** closes only the editor and keeps the judgment detail open.
+- Added cache-busting for the updated JavaScript and CSS.
+
+
 ## 2.0.1
 - Restored the photographic header background by correcting asset paths.
 - Made primary and secondary tags permanently visible in the judgment detail view.
