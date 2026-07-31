@@ -4,7 +4,7 @@ Internal legal knowledge portal for environmental and planning case law relevant
 
 ## Version
 
-**v2.1.0 Stable**
+**v2.1.0-dev2 Stable**
 
 ## Current functionality
 
@@ -35,6 +35,10 @@ After editing judgments in the portal:
 The static version does not save edits directly to GitHub or a shared database.
 
 
-## Central judgments in v2.1.0
+## Central judgments in v2.1.0-dev2
 
 Only P 10602-25, M 5118-24, M 13461-22, M 1026-22, M 15064-21 and P 5094-23 are marked as central by default.
+
+
+## Develop build dev2
+Redigering sker nu i samma detaljdialog. Ingen andra dialog öppnas.
