@@ -42,3 +42,8 @@ Only P 10602-25, M 5118-24, M 13461-22, M 1026-22, M 15064-21 and P 5094-23 are 
 
 ## Develop build dev2
 Redigering sker nu i samma detaljdialog. Ingen andra dialog öppnas.
+
+
+## Administrationsläge
+
+Aktivera **Administrationsläge** för att visa redigeringsknapparna. Efter en ändring kan en ny `judgments.json` laddas ned och därefter ersätta `data/judgments.json` i GitHub. Någon importfunktion finns inte i portalen.

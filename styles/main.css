@@ -146,8 +146,14 @@
 @media(max-width:600px){.tag-editor-add{flex-direction:column}.tag-editor-addbtn{width:100%}}
 
 
-/* v2.0.0 export workflow */
-.adminbar{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.8rem max(1rem,calc((100vw - 1440px)/2));background:#fff8d9;border-bottom:1px solid #ead58a;position:sticky;top:0;z-index:20}.adminbar>div:first-child{display:flex;flex-wrap:wrap;gap:.35rem}.admin-actions{display:flex;gap:.6rem}.admin-actions button{border:1px solid #172d28;border-radius:999px;padding:.58rem .9rem;background:white;font-weight:700;cursor:pointer}.admin-actions button:last-child{background:#172d28;color:white}.admin-actions button:disabled{opacity:.45;cursor:not-allowed}.adminbar.is-dirty{background:#fff1b8}.export-success{background:#ddf4e8!important;border-color:#7bc49a!important}@media(max-width:760px){.adminbar{align-items:flex-start;flex-direction:column}.admin-actions{width:100%}.admin-actions button{flex:1}}
+/* v2.1.0-dev3: compact administration mode */
+.adminbar{display:flex;justify-content:flex-end;align-items:center;padding:.48rem max(1rem,calc((100vw - 1440px)/2));background:#f7f9f8;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+.admin-toggle{display:inline-flex;align-items:center;gap:.45rem;border:1px solid #bfcfc9;border-radius:999px;padding:.42rem .72rem;background:#fff;color:var(--navy);font:inherit;font-size:.88rem;font-weight:750;cursor:pointer}
+.admin-toggle:hover{background:#eef6f5}.admin-status{min-width:1.9rem;padding:.12rem .42rem;border-radius:999px;background:#eef1f0;color:var(--muted);font-size:.75rem;text-align:center}
+.admin-panel{display:flex;align-items:center;justify-content:space-between;gap:1rem;width:100%;margin-left:1rem}.admin-panel[hidden]{display:none}.admin-copy{display:flex;flex-wrap:wrap;gap:.32rem;font-size:.9rem;color:var(--ink)}
+.admin-actions{display:flex;gap:.45rem}.admin-actions button{border:1px solid #172d28;border-radius:999px;padding:.42rem .7rem;background:#fff;color:var(--navy);font:inherit;font-size:.84rem;font-weight:700;cursor:pointer}.admin-actions button:last-child{background:#172d28;color:#fff}.admin-actions button:disabled{opacity:.38;cursor:not-allowed}
+.adminbar.admin-open{justify-content:flex-start;background:#f7f9f8}.adminbar.is-dirty .admin-status{background:#fff1b8;color:#6b4d00}.adminbar.is-dirty.admin-open{border-bottom-color:#dfc972}.export-success{background:#e9f6ef!important;border-color:#8ec9a7!important}
+@media(max-width:760px){.adminbar.admin-open{align-items:flex-start;flex-direction:column}.admin-panel{margin-left:0;align-items:flex-start;flex-direction:column}.admin-actions{width:100%}.admin-actions button{flex:1}}
 
 /* v2.0.1: tags are always visible in the judgment detail */
 .detailtags > h3{margin:0 0 12px;color:var(--navy)}

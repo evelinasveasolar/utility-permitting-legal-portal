@@ -47,7 +47,28 @@ function prepareData(){
 function caseTypeTitle(r){const t=(r.decisionType||'').trim();const map={'Samråd 12:6 för solpark':'12:6-samråd för solcellsanläggning','Tillsyn solpark':'Tillsyn av solcellsanläggning','Strandskyddsdispens solpark':'Strandskyddsdispens för solcellsanläggning','Anmälan om vattenverksamhet':'Anmälan om vattenverksamhet vid solcellsanläggning','Ej registrerad':'Ärendetyp ännu inte registrerad'};if(map[t])return map[t];if(!t)return 'Ärendetyp ännu inte registrerad';return t.replace(/\bsolpark\b/gi,'solcellsanläggning').replace(/\bsolcellspark\b/gi,'solcellsanläggning');}
 let ORIGINAL_DATA=[];
 const DIRTY_CASES=new Set();
+let ADMIN_MODE=false;
 function deepClone(value){return JSON.parse(JSON.stringify(value))}
+
+function setAdminMode(enabled){
+  ADMIN_MODE=Boolean(enabled);
+  const bar=document.querySelector('#adminBar');
+  const panel=document.querySelector('#adminPanel');
+  const toggle=document.querySelector('#adminToggle');
+  const status=document.querySelector('#adminStatus');
+  if(panel)panel.hidden=!ADMIN_MODE;
+  if(toggle)toggle.setAttribute('aria-expanded',String(ADMIN_MODE));
+  if(status)status.textContent=ADMIN_MODE?'På':'Av';
+  if(bar)bar.classList.toggle('admin-open',ADMIN_MODE);
+  if(!ADMIN_MODE && typeof EDITING_INDEX!=='undefined' && Number.isInteger(EDITING_INDEX)){closeEditor();return;}
+  if(document.querySelector('#dlg')?.open){
+    const currentCase=document.querySelector('#detail .lead')?.textContent?.split(' · ')[0];
+    const index=DATA.findIndex(r=>r.caseNumber===currentCase);
+    if(index>=0)openDetail(index);
+  }
+}
+function toggleAdminMode(){setAdminMode(!ADMIN_MODE)}
+
 function updateAdminBar(message=''){
   const count=DIRTY_CASES.size;
   const bar=document.querySelector('#adminBar');
@@ -59,6 +80,8 @@ function updateAdminBar(message=''){
   label.textContent=count===0?'Inga osparade ändringar':count===1?'1 osparad ändring':`${count} osparade ändringar`;
   hint.textContent=message?` ${message}`:(count?' Exportera JSON-filen när du är klar.':' Redigera en dom och exportera sedan en uppdaterad JSON-fil.');
   bar.classList.toggle('is-dirty',count>0);
+  const status=document.querySelector('#adminStatus');
+  if(status)status.textContent=ADMIN_MODE?(count?String(count):'På'):(count?String(count):'Av');
   exportBtn.disabled=count===0; resetBtn.disabled=count===0;
 }
 function persistEdit(r){DIRTY_CASES.add(r.caseNumber);updateAdminBar()}
@@ -179,7 +202,7 @@ function saveEdit(e,i){
   openDetail(i);
 }
 function longSummaryHtml(r){const raw=String(r.longSummary||r.excerpt||r.summary||'');const parts=raw.split(/\n\n(?=(?:Bakgrund|Parternas argument|Domstolens bedömning|Dom):)/);return parts.map(p=>{const m=p.match(/^([^:]+):\n?([\s\S]*)$/);return m?`<section class="longsection"><h4>${esc(m[1])}</h4><p>${esc(m[2])}</p></section>`:`<p>${esc(p)}</p>`}).join('')}
-function relatedCases(r){return DATA.filter(x=>x.caseNumber!==r.caseNumber).map(x=>{let s=0;if(x.decisionType===r.decisionType)s+=6;if(x.courtLevel===r.courtLevel)s+=1;if(x.outcomeGroup===r.outcomeGroup)s+=1;for(const t of (r.primaryTags||[]))if((x.primaryTags||[]).includes(t))s+=4;for(const t of (r.secondaryTags||[]))if((x.secondaryTags||[]).includes(t))s+=1;return{x,s}}).filter(y=>y.s>2).sort((a,b)=>b.s-a.s).slice(0,3).map(y=>y.x)}function openRelated(c){const i=DATA.findIndex(x=>x.caseNumber===c);if(i>=0)openDetail(i)}function openDetail(i){const r=DATA[i];const edited=DIRTY_CASES.has(r.caseNumber);const rel=relatedCases(r);$('#detail').innerHTML=`<div class="detailactions"><span class="${edited?'savedmark':''}">${edited?'✓ Manuellt rättad':''}</span><div class="right"><button type="button" class="editbtn" data-action="edit">Redigera uppgifter</button><button type="button" class="close" data-action="close">Stäng</button></div></div><div class="detailflags">${r.courtLevel==='MÖD'?'<span class="flag mod">⚖️ MÖD</span>':''}${r.central?'<span class="flag central">★ Central dom</span>':''}</div><div class="meta">${esc(r.courtName)}${r.date?' · '+esc(r.date):''}</div><h2>${esc(r.displayHeadline||r.headline)}</h2><div class="lead">${esc(r.caseNumber)} · ${esc(r.decisionType)}</div><div class="one"><b>Kort sammanfattning</b><br>${esc(r.summary)}</div><div class="grid"><div class="field"><b>Utfall</b><span class="${r.outcomeGroup}">${r.outcomeGroup==='won'?'🌞 Solparken vann':r.outcomeGroup==='lost'?'⛔ Solparken förlorade':'Ej klassificerat'}</span></div><div class="field"><b>Domstol</b>${esc(r.courtName)}</div><div class="field"><b>Kommun</b>${esc(r.municipality||'Ej registrerad')}</div><div class="field"><b>Län</b>${esc(r.county||'Ej registrerat')}</div><div class="field"><b>Fastighet</b>${esc(r.property||'Ej registrerad')}</div><div class="field"><b>Klagande</b>${esc(r.appellant||'Ej registrerad')}</div><div class="field"><b>Motpart</b>${esc(r.counterparty||'Ej registrerad')}</div><div class="field"><b>Huvudsakligt skäl</b>${esc(r.mainReason)}</div><div class="field"><b>Filnamn</b><code>${esc(r.filename)}</code></div></div><section class="detailtags"><h3>Ämnen och taggar</h3><h4>Primära frågor</h4><div class="tagrow">${(r.primaryTags||[]).map(t=>`<span class="tag primary">${esc(t)}</span>`).join('')||'<span class="mutedplaceholder">Inga primära taggar</span>'}</div>${(r.secondaryTags||[]).length?`<h4>Sekundära frågor</h4><div class="tagrow">${r.secondaryTags.map(t=>`<span class="tag">${esc(t)}</span>`).join('')}</div>`:''}</section><h3>Lång sammanfattning</h3><div class="longtext">${longSummaryHtml(r)}</div><h3>Påverkan på praxis</h3><div class="practice">${esc(r.practiceNote||r.keyOutcome||'Ingen särskild bedömning av påverkan på praxis har registrerats.')}</div>${rel.length?`<h3>Liknande avgöranden</h3><div class="related-grid">${rel.map(x=>`<div class="related-card" onclick="openRelated('${esc(x.caseNumber)}')"><b>${esc(x.caseNumber)} · ${esc(x.displayHeadline||x.headline)}</b><span>${esc(x.decisionType)} · ${esc(x.date||'')}</span></div>`).join('')}</div>`:''}<div class="notice">SharePoint-länken skapas från det verifierade filnamnet.</div><a class="btn" href="${esc(url(r.filename))}" target="_blank" rel="noopener noreferrer">Öppna domen i SharePoint</a><section class="internal-comment"><h3>Intern kommentar</h3><p class="${r.internalComment?'':'mutedplaceholder'}">${esc(r.internalComment||'Ingen intern kommentar har lagts till ännu.')}</p></section>`;
+function relatedCases(r){return DATA.filter(x=>x.caseNumber!==r.caseNumber).map(x=>{let s=0;if(x.decisionType===r.decisionType)s+=6;if(x.courtLevel===r.courtLevel)s+=1;if(x.outcomeGroup===r.outcomeGroup)s+=1;for(const t of (r.primaryTags||[]))if((x.primaryTags||[]).includes(t))s+=4;for(const t of (r.secondaryTags||[]))if((x.secondaryTags||[]).includes(t))s+=1;return{x,s}}).filter(y=>y.s>2).sort((a,b)=>b.s-a.s).slice(0,3).map(y=>y.x)}function openRelated(c){const i=DATA.findIndex(x=>x.caseNumber===c);if(i>=0)openDetail(i)}function openDetail(i){const r=DATA[i];const edited=DIRTY_CASES.has(r.caseNumber);const rel=relatedCases(r);$('#detail').innerHTML=`<div class="detailactions"><span class="${edited?'savedmark':''}">${edited?'✓ Manuellt rättad':''}</span><div class="right">${ADMIN_MODE?'<button type="button" class="editbtn" data-action="edit">Redigera uppgifter</button>':''}<button type="button" class="close" data-action="close">Stäng</button></div></div><div class="detailflags">${r.courtLevel==='MÖD'?'<span class="flag mod">⚖️ MÖD</span>':''}${r.central?'<span class="flag central">★ Central dom</span>':''}</div><div class="meta">${esc(r.courtName)}${r.date?' · '+esc(r.date):''}</div><h2>${esc(r.displayHeadline||r.headline)}</h2><div class="lead">${esc(r.caseNumber)} · ${esc(r.decisionType)}</div><div class="one"><b>Kort sammanfattning</b><br>${esc(r.summary)}</div><div class="grid"><div class="field"><b>Utfall</b><span class="${r.outcomeGroup}">${r.outcomeGroup==='won'?'🌞 Solparken vann':r.outcomeGroup==='lost'?'⛔ Solparken förlorade':'Ej klassificerat'}</span></div><div class="field"><b>Domstol</b>${esc(r.courtName)}</div><div class="field"><b>Kommun</b>${esc(r.municipality||'Ej registrerad')}</div><div class="field"><b>Län</b>${esc(r.county||'Ej registrerat')}</div><div class="field"><b>Fastighet</b>${esc(r.property||'Ej registrerad')}</div><div class="field"><b>Klagande</b>${esc(r.appellant||'Ej registrerad')}</div><div class="field"><b>Motpart</b>${esc(r.counterparty||'Ej registrerad')}</div><div class="field"><b>Huvudsakligt skäl</b>${esc(r.mainReason)}</div><div class="field"><b>Filnamn</b><code>${esc(r.filename)}</code></div></div><section class="detailtags"><h3>Ämnen och taggar</h3><h4>Primära frågor</h4><div class="tagrow">${(r.primaryTags||[]).map(t=>`<span class="tag primary">${esc(t)}</span>`).join('')||'<span class="mutedplaceholder">Inga primära taggar</span>'}</div>${(r.secondaryTags||[]).length?`<h4>Sekundära frågor</h4><div class="tagrow">${r.secondaryTags.map(t=>`<span class="tag">${esc(t)}</span>`).join('')}</div>`:''}</section><h3>Lång sammanfattning</h3><div class="longtext">${longSummaryHtml(r)}</div><h3>Påverkan på praxis</h3><div class="practice">${esc(r.practiceNote||r.keyOutcome||'Ingen särskild bedömning av påverkan på praxis har registrerats.')}</div>${rel.length?`<h3>Liknande avgöranden</h3><div class="related-grid">${rel.map(x=>`<div class="related-card" onclick="openRelated('${esc(x.caseNumber)}')"><b>${esc(x.caseNumber)} · ${esc(x.displayHeadline||x.headline)}</b><span>${esc(x.decisionType)} · ${esc(x.date||'')}</span></div>`).join('')}</div>`:''}<div class="notice">SharePoint-länken skapas från det verifierade filnamnet.</div><a class="btn" href="${esc(url(r.filename))}" target="_blank" rel="noopener noreferrer">Öppna domen i SharePoint</a><section class="internal-comment"><h3>Intern kommentar</h3><p class="${r.internalComment?'':'mutedplaceholder'}">${esc(r.internalComment||'Ingen intern kommentar har lagts till ännu.')}</p></section>`;
   const dialog=document.querySelector('#dlg');
   if(!dialog.open)dialog.showModal();
   const detail=document.querySelector('#detail');
@@ -222,6 +245,7 @@ async function initializeApp(){
     renderAll();
     renderTrends();
     updateAdminBar();
+    document.querySelector('#adminToggle').onclick=toggleAdminMode;
     document.querySelector('#exportJson').onclick=exportJudgments;
     document.querySelector('#resetChanges').onclick=resetAllChanges;
     window.addEventListener('beforeunload',event=>{if(DIRTY_CASES.size){event.preventDefault();event.returnValue='';}});

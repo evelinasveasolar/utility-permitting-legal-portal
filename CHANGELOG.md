@@ -1,5 +1,15 @@
 # Changelog
 
+## v2.1.0-dev3 – Administrationsläge
+
+- Ersätter den stora gula administrationsraden med en diskret knapp.
+- Redigeringsknappen visas endast när administrationsläget är aktiverat.
+- Återställning och JSON-export visas i den expanderade administrationspanelen.
+- Import av JSON har inte lagts till.
+- Antalet osparade ändringar visas diskret på administrationsknappen.
+
+# Changelog
+
 ## v2.1.0-dev2
 - Skriver om redigeringen så att formuläret visas i samma detaljdialog.
 - Spara och Avbryt återgår till läsläget i samma dialog.
