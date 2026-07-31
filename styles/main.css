@@ -185,3 +185,9 @@
 .modal-editbar .cancelbtn,.modal-editbar .resetbtn{background:#fff;color:var(--navy)}
 .modal-editbar .resetbtn{border-color:#b6c5c0}
 @media(max-width:680px){.editor-dialog{width:calc(100vw - 12px);max-height:96vh;border-radius:14px}.modal-editform{padding:0 14px 18px}.editor-heading{margin:0 -14px 14px;padding:16px 14px 13px}.modal-editform .editgrid{grid-template-columns:1fr}.modal-editbar{margin:18px -14px -18px;padding:12px 14px;align-items:stretch;flex-direction:column}.editbar-right{display:grid;grid-template-columns:1fr 1fr}.modal-editbar button{width:100%}}
+
+/* v2.1.0-dev2: editor uses the existing detail dialog instead of a second modal. */
+#detail .modal-editform{margin:0;background:#fff;border:0;border-radius:0;padding:0}
+#detail .editor-heading{margin:-28px -28px 18px;padding:20px 28px 16px}
+#detail .modal-editbar{margin:22px -28px -28px;padding:15px 28px}
+@media(max-width:680px){#detail .editor-heading{margin:-28px -28px 14px;padding:16px 20px 13px}#detail .modal-editbar{margin:18px -28px -28px;padding:12px 20px}}

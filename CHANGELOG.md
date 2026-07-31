@@ -1,5 +1,11 @@
 # Changelog
 
+## v2.1.0-dev2
+- Skriver om redigeringen så att formuläret visas i samma detaljdialog.
+- Spara och Avbryt återgår till läsläget i samma dialog.
+- Tar bort beroendet av en andra, nästlad dialog.
+
+
 ## v2.1.0 – Stable Editor
 
 - Built a new standalone modal editor instead of editing inside the judgment detail card.
