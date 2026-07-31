@@ -154,3 +154,34 @@
 .detailtags > h4{margin:12px 0 4px;font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
 
 #editHost:not(:empty){scroll-margin-top:18px}.editform{box-shadow:0 10px 28px rgba(23,63,74,.10)}
+
+#editHost:not(:empty){margin:16px 0 22px;scroll-margin-top:18px}.editform{border:2px solid #d9a8b6}.editform::before{content:'Redigera uppgifter';display:block;font-size:18px;font-weight:900;color:var(--navy);margin-bottom:10px}
+
+
+/* v2.1.0 Stable Editor */
+.editor-dialog{width:min(980px,calc(100vw - 28px));max-width:980px;height:min(92vh,980px);max-height:92vh;padding:0;border:0;border-radius:18px;overflow:auto;background:#fff;box-shadow:0 24px 80px rgba(5,32,39,.34)}
+.editor-dialog::backdrop{background:rgba(4,28,34,.68);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
+.editor-shell{min-height:100%;background:#fff}
+.modal-editform{border:0;border-radius:0;box-shadow:none;margin:0;padding:0 24px 24px}
+.modal-editform::before{content:none}
+.editor-heading{position:sticky;top:0;z-index:3;display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin:0 -24px 18px;padding:20px 24px 16px;background:rgba(255,255,255,.97);border-bottom:1px solid var(--line)}
+.editor-kicker{display:block;margin-bottom:3px;color:var(--muted);font-size:12px;font-weight:850;text-transform:uppercase;letter-spacing:.07em}
+.editor-heading h2{margin:0;color:var(--navy);font-size:26px}
+.editor-x{width:40px;height:40px;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--navy);font-size:27px;line-height:1;cursor:pointer}
+.editor-x:hover{background:var(--pink-soft)}
+.modal-editform .editnote{margin:0 0 18px;padding:13px 15px;border-radius:10px;background:#eef6f5;line-height:1.55}
+.modal-editform .editgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.modal-editform .editfield{min-width:0}
+.modal-editform .editfield label{display:block;margin-bottom:6px;font-weight:800;color:var(--navy)}
+.modal-editform input,.modal-editform select,.modal-editform textarea{width:100%;box-sizing:border-box;border:1px solid #bfcfc9;border-radius:9px;padding:10px 11px;background:#fff;color:var(--ink);font:inherit}
+.modal-editform textarea{min-height:110px;resize:vertical;line-height:1.5}
+.modal-editform .full{grid-column:1/-1}
+.central-checkbox label{display:flex!important;align-items:center;gap:9px;padding:12px;border:1px solid var(--line);border-radius:10px;background:#fafcfc}
+.central-checkbox input{width:auto}
+.modal-editbar{position:sticky;bottom:0;z-index:3;display:flex;justify-content:space-between;align-items:center;gap:12px;margin:22px -24px -24px;padding:15px 24px;background:rgba(255,255,255,.98);border-top:1px solid var(--line)}
+.editbar-right{display:flex;gap:10px}
+.modal-editbar button{border:1px solid var(--navy);border-radius:999px;padding:10px 16px;font-weight:800;cursor:pointer}
+.modal-editbar .savebtn{background:var(--navy);color:#fff}
+.modal-editbar .cancelbtn,.modal-editbar .resetbtn{background:#fff;color:var(--navy)}
+.modal-editbar .resetbtn{border-color:#b6c5c0}
+@media(max-width:680px){.editor-dialog{width:calc(100vw - 12px);max-height:96vh;border-radius:14px}.modal-editform{padding:0 14px 18px}.editor-heading{margin:0 -14px 14px;padding:16px 14px 13px}.modal-editform .editgrid{grid-template-columns:1fr}.modal-editbar{margin:18px -14px -18px;padding:12px 14px;align-items:stretch;flex-direction:column}.editbar-right{display:grid;grid-template-columns:1fr 1fr}.modal-editbar button{width:100%}}
