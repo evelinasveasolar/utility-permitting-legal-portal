@@ -120,22 +120,33 @@ function editForm(i){
 }
 function setupTagEditors(root=document){root.querySelectorAll('.tag-editor').forEach(editor=>{const chips=editor.querySelector('.tag-editor-chips'),input=editor.querySelector('.tag-editor-input'),add=editor.querySelector('.tag-editor-addbtn');const addTag=()=>{const tag=input.value.trim();if(!tag)return;const exists=[...chips.querySelectorAll('.tag-edit-chip')].some(x=>x.dataset.tag.toLocaleLowerCase('sv')===tag.toLocaleLowerCase('sv'));if(!exists){const b=document.createElement('button');b.type='button';b.className='tag-edit-chip';b.dataset.tag=tag;b.title=`Ta bort ${tag}`;const span=document.createElement('span');span.textContent=tag;const x=document.createElement('b');x.setAttribute('aria-hidden','true');x.textContent='×';b.append(span,x);chips.appendChild(b)}input.value='';input.focus()};add.addEventListener('click',addTag);input.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===','){e.preventDefault();addTag()}});chips.addEventListener('click',e=>{const chip=e.target.closest('.tag-edit-chip');if(chip)chip.remove()})})}
 function collectTagEditor(form,name){const editor=form.querySelector(`.tag-editor[data-name="${name}"]`);return editor?[...editor.querySelectorAll('.tag-edit-chip')].map(x=>x.dataset.tag.trim()).filter(Boolean):[]}
-function closeEditor(){const dialog=document.querySelector('#editDlg');if(dialog?.open)dialog.close();document.querySelector('#editorShell').innerHTML=''}
+let EDITING_INDEX=null;
+function closeEditor(reopenDetail=false){
+  const dialog=document.querySelector('#editDlg');
+  if(dialog?.open)dialog.close();
+  document.querySelector('#editorShell').innerHTML='';
+  const index=EDITING_INDEX;
+  EDITING_INDEX=null;
+  if(reopenDetail&&Number.isInteger(index)&&DATA[index])openDetail(index);
+}
 function showEdit(i){
   const dialog=document.querySelector('#editDlg');
   const shell=document.querySelector('#editorShell');
   if(!dialog||!shell||!DATA[i])return;
+  EDITING_INDEX=i;
+  const detailDialog=document.querySelector('#dlg');
+  if(detailDialog?.open)detailDialog.close();
   shell.innerHTML=editForm(i);
   setupTagEditors(shell);
   const form=shell.querySelector('#editForm');
   form.addEventListener('submit',event=>saveEdit(event,i));
   shell.addEventListener('click',event=>{
     const action=event.target.closest('[data-editor-action]')?.dataset.editorAction;
-    if(action==='cancel')closeEditor();
+    if(action==='cancel')closeEditor(true);
     if(action==='reset'){
       const caseNumber=DATA[i].caseNumber;
       const original=ORIGINAL_DATA.find(r=>r.caseNumber===caseNumber);
-      if(original){DATA[i]=deepClone(original);DIRTY_CASES.delete(caseNumber);prepareData();updateAdminBar();closeEditor();openDetail(i)}
+      if(original){DATA[i]=deepClone(original);DIRTY_CASES.delete(caseNumber);prepareData();updateAdminBar();closeEditor(true)}
     }
   });
   if(!dialog.open)dialog.showModal();
@@ -147,7 +158,7 @@ function saveEdit(e,i){
   const r=DATA[i],f=new FormData(e.target);
   ['displayHeadline','summary','courtName','date','decisionType','municipality','county','relevance','property','appellant','counterparty','mainReason','keyOutcome','excerpt','longSummary','internalComment'].forEach(k=>r[k]=String(f.get(k)||'').trim());
   r.courtName=normalizeCourtCanonical(r.courtName);r.county=normalizeCountyName(r.county);r.outcomeGroup=String(f.get('outcomeGroup')||'neutral');r.primaryTags=collectTagEditor(e.target,'primaryTags');r.secondaryTags=collectTagEditor(e.target,'secondaryTags');r.central=f.get('central')==='on';r.practiceNote=r.keyOutcome;
-  persistEdit(r);populateTypes();populateGeo();renderStats();renderAll();renderTrends();closeEditor();openDetail(i);
+  persistEdit(r);populateTypes();populateGeo();renderStats();renderAll();renderTrends();closeEditor(true);
 }
 function longSummaryHtml(r){const raw=String(r.longSummary||r.excerpt||r.summary||'');const parts=raw.split(/\n\n(?=(?:Bakgrund|Parternas argument|Domstolens bedömning|Dom):)/);return parts.map(p=>{const m=p.match(/^([^:]+):\n?([\s\S]*)$/);return m?`<section class="longsection"><h4>${esc(m[1])}</h4><p>${esc(m[2])}</p></section>`:`<p>${esc(p)}</p>`}).join('')}
 function relatedCases(r){return DATA.filter(x=>x.caseNumber!==r.caseNumber).map(x=>{let s=0;if(x.decisionType===r.decisionType)s+=6;if(x.courtLevel===r.courtLevel)s+=1;if(x.outcomeGroup===r.outcomeGroup)s+=1;for(const t of (r.primaryTags||[]))if((x.primaryTags||[]).includes(t))s+=4;for(const t of (r.secondaryTags||[]))if((x.secondaryTags||[]).includes(t))s+=1;return{x,s}}).filter(y=>y.s>2).sort((a,b)=>b.s-a.s).slice(0,3).map(y=>y.x)}function openRelated(c){const i=DATA.findIndex(x=>x.caseNumber===c);if(i>=0)openDetail(i)}function openDetail(i){const r=DATA[i];const edited=DIRTY_CASES.has(r.caseNumber);const rel=relatedCases(r);$('#detail').innerHTML=`<div class="detailactions"><span class="${edited?'savedmark':''}">${edited?'✓ Manuellt rättad':''}</span><div class="right"><button type="button" class="editbtn" data-action="edit">Redigera uppgifter</button><button type="button" class="close" data-action="close">Stäng</button></div></div><div class="detailflags">${r.courtLevel==='MÖD'?'<span class="flag mod">⚖️ MÖD</span>':''}${r.central?'<span class="flag central">★ Central dom</span>':''}</div><div class="meta">${esc(r.courtName)}${r.date?' · '+esc(r.date):''}</div><h2>${esc(r.displayHeadline||r.headline)}</h2><div class="lead">${esc(r.caseNumber)} · ${esc(r.decisionType)}</div><div class="one"><b>Kort sammanfattning</b><br>${esc(r.summary)}</div><div class="grid"><div class="field"><b>Utfall</b><span class="${r.outcomeGroup}">${r.outcomeGroup==='won'?'🌞 Solparken vann':r.outcomeGroup==='lost'?'⛔ Solparken förlorade':'Ej klassificerat'}</span></div><div class="field"><b>Domstol</b>${esc(r.courtName)}</div><div class="field"><b>Kommun</b>${esc(r.municipality||'Ej registrerad')}</div><div class="field"><b>Län</b>${esc(r.county||'Ej registrerat')}</div><div class="field"><b>Fastighet</b>${esc(r.property||'Ej registrerad')}</div><div class="field"><b>Klagande</b>${esc(r.appellant||'Ej registrerad')}</div><div class="field"><b>Motpart</b>${esc(r.counterparty||'Ej registrerad')}</div><div class="field"><b>Huvudsakligt skäl</b>${esc(r.mainReason)}</div><div class="field"><b>Filnamn</b><code>${esc(r.filename)}</code></div></div><section class="detailtags"><h3>Ämnen och taggar</h3><h4>Primära frågor</h4><div class="tagrow">${(r.primaryTags||[]).map(t=>`<span class="tag primary">${esc(t)}</span>`).join('')||'<span class="mutedplaceholder">Inga primära taggar</span>'}</div>${(r.secondaryTags||[]).length?`<h4>Sekundära frågor</h4><div class="tagrow">${r.secondaryTags.map(t=>`<span class="tag">${esc(t)}</span>`).join('')}</div>`:''}</section><h3>Lång sammanfattning</h3><div class="longtext">${longSummaryHtml(r)}</div><h3>Påverkan på praxis</h3><div class="practice">${esc(r.practiceNote||r.keyOutcome||'Ingen särskild bedömning av påverkan på praxis har registrerats.')}</div>${rel.length?`<h3>Liknande avgöranden</h3><div class="related-grid">${rel.map(x=>`<div class="related-card" onclick="openRelated('${esc(x.caseNumber)}')"><b>${esc(x.caseNumber)} · ${esc(x.displayHeadline||x.headline)}</b><span>${esc(x.decisionType)} · ${esc(x.date||'')}</span></div>`).join('')}</div>`:''}<div class="notice">SharePoint-länken skapas från det verifierade filnamnet.</div><a class="btn" href="${esc(url(r.filename))}" target="_blank" rel="noopener noreferrer">Öppna domen i SharePoint</a><section class="internal-comment"><h3>Intern kommentar</h3><p class="${r.internalComment?'':'mutedplaceholder'}">${esc(r.internalComment||'Ingen intern kommentar har lagts till ännu.')}</p></section>`;
@@ -195,7 +206,7 @@ async function initializeApp(){
     updateAdminBar();
     document.querySelector('#exportJson').onclick=exportJudgments;
     document.querySelector('#resetChanges').onclick=resetAllChanges;
-    document.querySelector('#editDlg').addEventListener('cancel',event=>{event.preventDefault();closeEditor();});
+    document.querySelector('#editDlg').addEventListener('cancel',event=>{event.preventDefault();closeEditor(true);});
     document.querySelector('#editDlg').addEventListener('click',event=>{if(event.target===event.currentTarget)closeEditor();});
     window.addEventListener('beforeunload',event=>{if(DIRTY_CASES.size){event.preventDefault();event.returnValue='';}});
   }catch(error){
