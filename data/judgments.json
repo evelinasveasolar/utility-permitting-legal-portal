@@ -1,5 +1,41 @@
 [
   {
+    "caseNumber": "P 2833-26",
+    "filename": "TVB_P2833-26.PDF",
+    "date": "2026-08-03",
+    "court": "Vänersborgs tingsrätt, Mark- och miljödomstolen",
+    "courtLevel": "MMD",
+    "decisionType": "Bygglov",
+    "headline": "Bygglov för transformatorstationer utan detaljplan",
+    "summary": "Mark- och miljödomstolen godtog bygglov för transformatorstationer, stationsbyggnad och reservdelscontainer till en planerad solpark. Åtgärderna ansågs inte kräva detaljplan och domstolen fann inte skäl att frångå kommunens och länsstyrelsens bedömning av markens lämplighet.",
+    "outcome": "Solparken",
+    "outcomeGroup": "won",
+    "property": "Karlstad Lillerud 2:4",
+    "appellant": "Privatpersoner",
+    "counterparty": "Stadsbyggnadsnämnden i Karlstads kommun och RES Renewable Norden AB",
+    "mainReason": "Detaljplan behövs inte",
+    "keyOutcome": "Bygglovsprövningen avser de sökta bygglovspliktiga åtgärderna och behöver inte omfatta hela solparken. Kommunens bedömning av detaljplanebehovet väger tungt och ett genomfört 12:6-samråd kan få betydelse för bedömningen av naturvärden och lämplig markanvändning.",
+    "excerpt": "Domstolen begränsade prövningen till transformatorstationerna, stationsbyggnaden och reservdelscontainern och fann inte skäl att frångå kommunens bedömning att detaljplan inte krävdes.",
+    "primaryTags": [
+      "Bygglov",
+      "Transformatorstation",
+      "Solpark"
+    ],
+    "secondaryTags": [
+      "Detaljplan",
+      "12:6-samråd",
+      "Översiktsplan",
+      "Naturvärden",
+      "Friluftsliv"
+    ],
+    "displayHeadline": "Bygglov för transformatorstationer utan detaljplan",
+    "municipality": "Karlstad",
+    "county": "Värmland",
+    "central": false,
+    "practiceNote": "Bygglov för tekniska byggnader till en solpark kan prövas separat från solparken som helhet. Kommunens bedömning av om detaljplan krävs har stor tyngd, och redan genomförd miljöprövning inom 12:6-samrådet kan stödja bedömningen av platsens lämplighet.",
+    "longSummary": "Bakgrund:\nStadsbyggnadsnämnden i Karlstads kommun beviljade bygglov för transformatorstationer, stationsbyggnad och reservdelscontainer på fastigheten Lillerud 2:4 som komplement till en planerad solcellspark. Länsstyrelsen avslog närboendes överklagande och frågan fördes därefter vidare till mark- och miljödomstolen.\n\nParternas argument:\nKlagandena ansåg att etableringen borde prövas genom detaljplan eftersom solparken sammantaget tog ett stort område i anspråk och berörde mark som i kommunens översiktsplan pekats ut för natur och rörligt friluftsliv. De menade att bygglovsprövningen blev alltför begränsad när endast vissa bygglovspliktiga delar av anläggningen prövades och att helhetseffekterna av solparken därför inte bedömdes. Kommunen och länsstyrelsen hade däremot bedömt att de sökta byggnadsverken kunde prövas genom bygglov och att påverkan på naturmiljön redan hade hanterats inom samrådet enligt 12 kap. 6 § miljöbalken.\n\nDomstolens bedömning:\nMark- och miljödomstolen konstaterade att målet endast avsåg bygglov för transformatorstationerna, stationsbyggnaden och reservdelscontainern och att andra delar av solparken därför låg utanför prövningen. Domstolen hänvisade till praxis enligt vilken kommunens uppfattning om behovet av detaljplan ska ges stor genomslagskraft och fann inte skäl att frångå kommunens och länsstyrelsens bedömning. Att delar av området pekats ut för natur och friluftsliv i översiktsplanen förändrade inte bedömningen eftersom översiktsplanen inte är bindande. Domstolen beaktade även att solparkens påverkan på naturmiljön redan hade bedömts och accepterats inom 12:6-samrådet. Placeringen bedömdes därför inte vara olämplig enligt PBL.\n\nDom:\nMark- och miljödomstolen avslog överklagandet. Bygglovet för transformatorstationerna, stationsbyggnaden och reservdelscontainern stod därmed fast. Domen bekräftar att bygglovsprövningen kan begränsas till de bygglovspliktiga delarna av en solpark och att kommunens bedömning av detaljplanebehovet har stor betydelse."
+  },
+  {
     "caseNumber": "M 1248-25",
     "filename": "M 1248-25.PDF",
     "date": "2025-08-29",
