@@ -1,5 +1,41 @@
 [
   {
+    "caseNumber": "P 10605-25",
+    "filename": "Svea HR P 10605-25 Dom 2026-05-19.pdf",
+    "date": "2026-05-19",
+    "court": "Svea hovrätt, Mark- och miljööverdomstolen",
+    "courtName": "Svea hovrätt",
+    "courtLevel": "MÖD",
+    "decisionType": "Förhandsbesked",
+    "headline": "Kommunen kunde inte hålla fastigheten i ett permanent detaljplaneläge",
+    "displayHeadline": "Långvarigt detaljplanekrav fick ge vika för en konkret prövning",
+    "summary": "MÖD ansåg att det inte längre var proportionerligt att neka prövning av två bostadshus med hänvisning till detaljplanekravet. Kommunen hade åberopat planbehov under flera decennier utan konkret planläggning, och dess övriga invändningar var inte tillräckligt knutna till den sökta åtgärden och platsen.",
+    "outcome": "Kommunens avslag undanröjdes och ärendet återförvisades",
+    "outcomeGroup": "neutral",
+    "municipality": "Kungsbacka",
+    "county": "Halland",
+    "property": "Anonymiserad fastighet (X)",
+    "appellant": "Två fastighetsägare (anonymiserade)",
+    "counterparty": "Byggnadsnämnden i Kungsbacka kommun",
+    "mainReason": "Efter flera decenniers hänvisning till detaljplan utan konkret planarbete vägde fastighetens intresse av en sakprövning tyngre. Kommunens generella påståenden om trafik, bebyggelsetryck, grönstruktur och landskapsbild visade inte att just den sökta åtgärden var olämplig.",
+    "keyOutcome": "Kommunens uppfattning om detaljplanebehov har stor tyngd men är inte obegränsad. Ett plankrav får inte fungera som ett permanent stopp när kommunen inte bedriver konkret planarbete och inte kan visa projektspecifika hinder.",
+    "practiceNote": "Strategiskt analogifall för solparksprojekt: begär att kommunen preciserar vilken samordning som faktiskt kräver detaljplan, hur invändningarna hänför sig till just projektet och om något konkret planarbete finns. Dokumentera tidigare avslag, planbesked och tidsförlopp. Domen begränsar risken för ett obestämt planmässigt låst läge, men en stor solpark kan ha större samordnings- och omgivningsfrågor än de två bostadshus som prövades här.",
+    "excerpt": "Det var inte längre proportionerligt att vägra en sakprövning med hänvisning till detaljplanekravet, och kommunens övriga allmänt hållna skäl var otillräckliga.",
+    "longSummary": "Bakgrund:\nTvå fastighetsägare ansökte om positivt förhandsbesked för två enbostadshus i Onsala. Byggnadsnämnden avslog ansökan med hänvisning till detaljplanekravet och till mer allmänna invändningar om bland annat trafik, bebyggelsetryck, landskapsbild och grönstruktur. Detaljplanekrav hade åberopats för fastigheten eller närområdet sedan åtminstone 1990-talet, medan någon konkret planläggning inte hade inletts.\n\nParternas argument:\nFastighetsägarna framhöll att kommunen under minst 33 år hade använt detaljplanekravet utan att ta fram en plan. Området var redan till stor del bebyggt och detaljplanelagt, kommunalt vatten och avlopp fanns och två hus skulle endast ge ett marginellt tillskott. Kommunen hänvisade till högt bebyggelsetryck, en ansträngd trafiksituation, översiktsplanens inriktning samt risker för bebyggelsestruktur, kulturlandskap, grönstruktur och prejudicerande effekter.\n\nDomstolens bedömning:\nMÖD godtog att det i grunden fanns ett allmänt intresse av detaljplaneläggning och betonade kommunens vidsträckta möjlighet att styra bebyggelseutvecklingen. Intresset vägde dock lättare eftersom ansökan avsåg två hus i ett centrumnära, sammanhängande och till stor del redan detaljplanelagt bostadsområde. Mot detta stod att kommunen hade hänvisat till planbehov under flera decennier utan en konkret plan. Det var därför inte längre proportionerligt att vägra en sakprövning med stöd av detaljplanekravet. Kommunens övriga skäl var dessutom allmänt formulerade och inte tillräckligt preciserade i förhållande till just åtgärden och fastigheten. Två hus hade inte visats ge en relevant trafikökning eller olämplig påverkan på bebyggelsestruktur, kulturlandskap eller grönområde.\n\nDom:\nMÖD undanröjde kommunens negativa förhandsbesked och återförvisade ärendet för fortsatt behandling. Domstolen gav alltså inte själv ett positivt förhandsbesked, eftersom bland annat andra enskilda intressen fortfarande skulle prövas.\n\nBetydelse för solparksprojekt:\nDomen ger stöd mot att en kommun använder ett allmänt planbehov eller en övergripande översiktsplaneinriktning som ett långvarigt stopp utan att driva konkret planarbete. Den är också användbar när kommunen försöker formulera om samma planargument till generella invändningar enligt 2 kap. PBL: skälen måste kopplas till den sökta åtgärden och platsen. Samtidigt är detta ett analogifall om två bostadshus. För en stor solpark kan kommunen lättare visa ett verkligt behov av samordning, helhetsbedömning eller reglering. Domen bör därför användas tillsammans med projektspecifikt underlag och inte som stöd för att solparker generellt slipper detaljplan.",
+    "primaryTags": [
+      "Detaljplan",
+      "Proportionalitet",
+      "Förhandsbesked"
+    ],
+    "secondaryTags": [
+      "PBL",
+      "Översiktsplan"
+    ],
+    "central": false,
+    "relevance": "Mycket relevant",
+    "internalComment": "Bevaka särskilt i projekt där kommunen kräver detaljplan men inte kan beskriva tidplan, planuppdrag eller vilka konkreta frågor som inte kan hanteras genom bygglov, 12:6-samråd och övriga tillstånd. Dokumentera kommunens besked och tidslinjen från första kontakten."
+  },
+  {
     "caseNumber": "P 2833-26",
     "filename": "TVB_P2833-26.PDF",
     "date": "2026-08-03",
