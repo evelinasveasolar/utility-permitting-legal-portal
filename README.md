@@ -1,49 +1,27 @@
 # Utility Permitting Legal Portal
 
-Internal legal knowledge portal for environmental and planning case law relevant to utility-scale renewable-energy projects.
+Intern juridisk kunskapsportal för miljö- och planrättsliga avgöranden med relevans för storskalig solkraft och energilagring.
 
-## Version
+## Funktioner
 
-**v2.1.0-dev2 Stable**
+- Fritextsökning och filtrering
+- Ämnen och taggar
+- Centrala domar
+- Detaljkort och relaterade avgöranden
+- Trendvy
+- Länkar till originaldomar i SharePoint
 
-## Current functionality
+Portalen är skrivskyddad. `data/judgments.json` är den enda datakällan; administrationsläge, lokal redigering, lokal lagring och JSON-export/import ingår inte.
 
-- Search and filtering
-- Tag-based navigation
-- Related judgments and trend overview
-- Judgment editor beneath the ordinary detail view
-- Unsaved-change indicator
-- Reset changes
-- Export of an updated `judgments.json`
+## Uppdatera domar
 
-## Publishing on GitHub Pages
+1. Redigera `data/judgments.json`.
+2. Kontrollera att JSON-filen är giltig.
+3. Lägg in filen i GitHub-repot och gör en commit.
+4. Vänta tills GitHub Pages-publiceringen är klar.
 
-Use:
+## GitHub Pages
 
-- Source: **Deploy from a branch**
-- Branch: **main**
-- Folder: **/(root)**
+Publicera från den branch som repots Pages-inställning använder, med mappen `/(root)`. Om den befintliga webbplatsen publiceras från `develop`, behåll den inställningen när filerna ersätts. Då behålls samma URL:
 
-## Updating data
-
-After editing judgments in the portal:
-
-1. Download the updated `judgments.json`.
-2. Replace `data/judgments.json` in the repository.
-3. Commit the change.
-
-The static version does not save edits directly to GitHub or a shared database.
-
-
-## Central judgments in v2.1.0-dev2
-
-Only P 10602-25, M 5118-24, M 13461-22, M 1026-22, M 15064-21 and P 5094-23 are marked as central by default.
-
-
-## Develop build dev2
-Redigering sker nu i samma detaljdialog. Ingen andra dialog öppnas.
-
-
-## Administrationsläge
-
-Aktivera **Administrationsläge** för att visa redigeringsknapparna. Efter en ändring kan en ny `judgments.json` laddas ned och därefter ersätta `data/judgments.json` i GitHub. Någon importfunktion finns inte i portalen.
+`https://evelinasveasolar.github.io/utility-permitting-legal-portal/`
